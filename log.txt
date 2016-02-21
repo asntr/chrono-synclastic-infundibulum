@@ -1,0 +1,11 @@
+commit e527c8ae55a5d782e6fc327c17bfd2fa972fddb5
+Author: Anton <asntrx@gmail.com>
+Date:   Sun Feb 21 18:03:05 2016 +0300
+
+    Add status.txt
+
+commit 49f021fe115c5cd005cf2b21ad78108e250fa764
+Author: Anton <asntrx@gmail.com>
+Date:   Sun Feb 21 18:00:13 2016 +0300
+
+    Add .gitignore
