@@ -2,10 +2,11 @@
 <html>
 	<head>
 		<title>Menge chat</title>
-		<link rel="stylesheet" href="style.css">
-		<link rel="stylesheet" href="responsive.css">
+		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/responsive.css">
+		 <script src="scripts/scripts.js"></script>
 	</head>
-	<body>
+	<body onload="run();">
 		<div class="header">
 			<div class="name">
 				Menge chat &copy;
@@ -15,113 +16,26 @@
 				<span class="loggedUser">
 					Sunflower@56
 				</span><br>
-				<button class="loggingOptions" type="button" >Change nickname</button>
-				<button class="loggingOptions" type="button" >Log off</button>
+				<button class="loggingOptions" id="changenick" type="button" >Change nickname</button>
+				<button class="loggingOptions" id="logoff" type="button" >Log off</button>
 			</div>
 		</div>
 		<div class="messageList">
-			<div class="message usermessage" id="1" onmouseover="showOptions(this)" onmouseout="hideOptions(this)">
-				<span class="timestamp">
-					12:34:04
-				</span>
-				<span class="loggedUser">
-					Sunflower@56
-				</span>
-				:
-				<span class="messageText">
-					Hello, guys!
-				</span>
-				<span class="messageMark">
-				</span>
-				<img src="cross.png" class="option" id="1del" title="delete message"></img>
-				<img src="edit.png" class="option" id="1edi" title="edit message"></img>
+			<div class="message" id="0">
+				<span class="timestamp">12:35:07</span><span class="user">aluminum_cucumber</span>:<span class="messageText">How R U?</span><span class="messageMark"></span>
+			</div>
+			<div class="message" id="1">
+				<span class="timestamp">12:36:17</span><span class="user">Joe112358</span>:<span class="messageText">cool :)</span><span class="messageMark">(edited at 12:36:35)</span>
 			</div>
 			<div class="message" id="2">
-				<span class="timestamp">
-					12:35:07
-				</span>
-				<span class="user">
-					aluminum_cucumber
-				</span>
-				:
-				<span class="messageText">
-					How R U?
-				</span>
-			</div>
-			<div class="message usermessage" id="3" onmouseover="showOptions(this)" onmouseout="hideOptions(this)">
-				<span class="timestamp">
-					12:35:45
-				</span>
-				<span class="loggedUser">
-					Sunflower@56
-				</span>
-				:
-				<span class="messageText">
-					Bad, I slept all the classes at the university because I was sitting in this super chat all night.
-				</span>
-				<span class="messageMark">
-				</span>
-				<img src="cross.png" class="option" id="3del" title="delete message"></img>
-				<img src="edit.png" class="option" id="3edi" title="edit message"></img>
-			</div>
-			<div class="message" id="4">
-				<span class="timestamp">
-					12:36:17
-				</span>
-				<span class="user">
-					Joe112358
-				</span>
-				:
-				<span class="messageText">
-					same thing :(
-				</span>
-				<span class="messageMark">
-					(edited at 12:36:35)
-				</span>
-			</div>
-			<div class="message" id="5">
-				<span class="timestamp">
-					12:36:24
-				</span>
-				<span class="user">
-					JimmiHendrix
-				</span>
-				:
-				<span class="messageText">
-					 Hey Joe, where you goin' with that gun in your hand?
-				</span>
-				<span class="messageMark">
-				</span>
-			</div>
-			<div class="message" id="6">
-				<span class="timestamp">
-					12:36:29
-				</span>
-				<span class="user">
-					Joe112358
-				</span>
-				:
-				<span class="messageText">
-				</span>
-				<span class="messageMark">
-					(message removed)
-				</span>
+				<span class="timestamp">12:36:29</span><span class="user">Joe112358</span>:<span class="messageText"></span><span class="messageMark">(message removed)</span>
 			</div>
 		</div>
 		<div class="inputField">
 			<textarea id="inputField" title='Type your message here' rows="2"></textarea>
 			<img src="warning.png" class="warning" title="cannot access the server"></img>
-			<button class="sendButton" type="button" onclick="alert('If I were a real chat, I would send your message')" title="Send your message">Send</button>
+			<button class="sendButton" type="button" title="Send your message">Send</button>
+			<button class="cancellButton" type="button">Cancell</button>
 		</div>
-		<script>
-			function showOptions(x) {
-				document.getElementById(x.id+"del").style.display = "inline";
-				document.getElementById(x.id+"edi").style.display = "inline";
-			}
-			function hideOptions(x) {
-				document.getElementById(x.id+"del").style.display = "none";
-				document.getElementById(x.id+"edi").style.display = "none";
-			}
-		</script>
 	</body>
 </html>
