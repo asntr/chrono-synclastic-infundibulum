@@ -3,6 +3,7 @@ package by.bsu.up.chat.logging.impl;
 import java.io.PrintStream;
 import java.io.FileNotFoundException;
 import by.bsu.up.chat.logging.Logger;
+import java.util.Calendar;
 
 public class Log implements Logger {
 
@@ -24,12 +25,12 @@ public class Log implements Logger {
 
     @Override
     public void info(String message) {
-        logWriter.println(String.format(tag, message));
+        logWriter.println(Calendar.getInstance().getTime().getTime() + " " + String.format(tag, message));
     }
 
     @Override
     public void error(String message, Throwable e) {
-        logWriter.println(String.format(tag, message));
+        logWriter.println(Calendar.getInstance().getTime().getTime() + " " + String.format(tag, message));
         e.printStackTrace(System.err);
     }
 
