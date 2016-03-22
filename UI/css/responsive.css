@@ -1,3 +1,39 @@
+@media screen and (max-width: 4000px) {
+	button {
+		padding: 6px 30px;
+	}
+
+	.header {
+		height: 80px;
+		font-size: 26px;
+	}
+	
+	.messageList {
+		margin-top:100px;
+	}
+	
+	.loginField {
+		font-size: 14px;
+	}
+	
+	.inputField {
+		height: 120px;
+	}
+	
+	.loggingOptions {
+		padding: 6px 8px;
+		font-size: 16px;
+	}	
+	
+	.warning {
+		height: 35px;
+	}
+	
+	.sendButton {
+		top: 50px;
+	}
+}
+
 @media screen and (max-width: 1500px) {
 	button {
 		padding: 5px 25px;
