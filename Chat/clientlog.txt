@@ -1,4 +1,9 @@
-1457556995935 [by.bsu.up.chat.client.Client] Message from server: lksmdklsm
-1457556996947 [by.bsu.up.chat.client.Client] Message from server: mlksmdfklm
-1457556997954 [by.bsu.up.chat.client.Client] Message from server: klsmdfkldsm
-1457556999954 [by.bsu.up.chat.client.Client] Message from server: Hello
+[1459289325535] : [by.bsu.up.chat.client.Client] Message from server: kkklnlkn
+[1459289325535] : [by.bsu.up.chat.client.Client] Message from server: lknklnlkn
+[1459289325535] : [by.bsu.up.chat.client.Client] Message from server: llnlnln
+[1459289326535] : [by.bsu.up.chat.client.Client] Message from server: kkklnlkn
+[1459289326535] : [by.bsu.up.chat.client.Client] Message from server: lknklnlkn
+[1459289326535] : [by.bsu.up.chat.client.Client] Message from server: llnlnln
+[1459289327537] : [by.bsu.up.chat.client.Client] Message from server: kkklnlkn
+[1459289327537] : [by.bsu.up.chat.client.Client] Message from server: lknklnlkn
+[1459289327537] : [by.bsu.up.chat.client.Client] Message from server: llnlnln

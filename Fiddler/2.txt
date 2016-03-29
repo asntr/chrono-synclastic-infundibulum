@@ -1,0 +1,14 @@
+GET http://192.168.1.40:999/chat?token=TN19EN HTTP/1.1
+User-Agent: Composer
+Host: 192.168.1.40:999
+Content-Length: 4
+
+
+
+
+HTTP/1.1 200 OK
+Date: Tue, 29 Mar 2016 19:34:40 GMT
+Access-control-allow-origin: *
+Content-length: 42
+
+{"messages":["Hello[2]"],"token":"TN19EN"}

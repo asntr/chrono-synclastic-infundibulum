@@ -1,4 +1,1 @@
-1457556994966 [by.bsu.up.chat.server.ServerHandler] Received new message from user: lksmdklsm
-1457556996150 [by.bsu.up.chat.server.ServerHandler] Received new message from user: mlksmdfklm
-1457556997170 [by.bsu.up.chat.server.ServerHandler] Received new message from user: klsmdfkldsm
-1457556999283 [by.bsu.up.chat.server.ServerHandler] Received new message from user: Hello
+[1459289238983] : [by.bsu.up.chat.server.ServerHandler] Received new message from user: Hello

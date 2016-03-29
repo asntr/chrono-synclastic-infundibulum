@@ -1,0 +1,17 @@
+POST http://192.168.1.40:999/chat HTTP/1.1
+User-Agent: Composer
+Host: 192.168.1.40:999
+Content-Length: 73
+
+{"message" : "Fiddler is the most fabulous stuff i've ever seen"}
+
+
+
+
+HTTP/1.1 200 OK
+Date: Tue, 29 Mar 2016 19:44:31 GMT
+Transfer-encoding: chunked
+Access-control-allow-origin: *
+
+0
+

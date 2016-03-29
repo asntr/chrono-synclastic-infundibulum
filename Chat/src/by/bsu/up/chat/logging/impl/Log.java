@@ -7,30 +7,34 @@ import java.util.Calendar;
 
 public class Log implements Logger {
 
-    private static final String TEMPLATE = "[%s] %s";
+    private static final String TEMPLATE = "[%s] : [%s] %s";
 
     private PrintStream logWriter;
 
     private String tag;
 
     private Log(Class<?> cls, String path) throws FileNotFoundException {
-        tag = String.format(TEMPLATE, cls.getName(), "%s");
+        tag = String.format(TEMPLATE, "%d", cls.getName(), "%s");
         logWriter = new PrintStream(path);
     }
 	
 	private Log(Class<?> cls) {
-        tag = String.format(TEMPLATE, cls.getName(), "%s");
-        logWriter = System.out;
+        tag = String.format(TEMPLATE, "%d", cls.getName(), "%s");
+        logWriter = null;
     }
 
     @Override
     public void info(String message) {
-        logWriter.println(Calendar.getInstance().getTime().getTime() + " " + String.format(tag, message));
+        if(logWriter != null)
+            logWriter.println(String.format(tag, Calendar.getInstance().getTime().getTime(), message));
+        System.out.println(String.format(tag, Calendar.getInstance().getTime().getTime(), message));
     }
 
     @Override
     public void error(String message, Throwable e) {
-        logWriter.println(Calendar.getInstance().getTime().getTime() + " " + String.format(tag, message));
+        if(logWriter != null)
+            logWriter.println(String.format(tag, Calendar.getInstance().getTime().getTime(), message));
+        System.err.println(String.format(tag, Calendar.getInstance().getTime().getTime(), message));
         e.printStackTrace(System.err);
     }
 
