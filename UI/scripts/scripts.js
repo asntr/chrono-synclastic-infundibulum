@@ -1,16 +1,17 @@
 'use strict';
 
-var messageList = [];
-var currentUser = "Patrick";
-var editMode = false;
-var editId;
+var Application = {
+    messageList : [],
+    mainUrl : 'http://localhost:8080/chat',
+    token : 'TN11EN',
+    currentUser : "Anon",
+    editMode : false,
+    editId : -1,
+	isConnected : void 0
+};
 
 function run() {
-	logAs(currentUser);
-	
-	messageList = loadMessages() || [
-			newMessage("Anton Kukulianski", "welcome to my chat", ""),
-		];
+	logAs(Application.currentUser);
 	
 	var sendButton = document.getElementsByClassName("sendButton")[0];
 	sendButton.addEventListener("click", sendMessage);
@@ -21,7 +22,7 @@ function run() {
 	var changeNicknameButton = document.getElementById("changenick");
 	changeNicknameButton.addEventListener("click", changeNickname);
 	
-	render(messageList);
+	connect();
 }
 
 function render(listToRender) {
@@ -36,13 +37,14 @@ function logAs(name) {
 }
 
 function newMessage(user, messageText, mark) {
+	var date = new Date();
 	return {
-		timestamp: getTextTimestamp(),
-		user: user,
-		messageText: messageText,
+		timestamp: date.getTime(),
+		author: user,
+		text: messageText,
 		messageMark: mark,
 		id: uniqueId(),
-		deleted: false
+		isDeleted: false
 	};
 }
 
@@ -50,16 +52,16 @@ function renderMessage(message) {
 	var list = document.getElementsByClassName('messageList')[0];
 	
 	var element;
-	if(message.user === currentUser) {
-		if(message.messageText === "")
+	if(message.author === Application.currentUser) {
+		if(message.text === "")
 			return;
 		element = elementFromTemplate(1);
 		element.addEventListener("mouseover", showOptions);
 		element.addEventListener("mouseout", hideOptions);
 		var fields = element.children;
 		fields[0].textContent = message.timestamp;
-		fields[1].textContent = message.user;
-		fields[2].textContent = message.messageText;
+		fields[1].textContent = message.author;
+		fields[2].textContent = message.text;
 		fields[3].textContent = message.messageMark;
 		fields[4].addEventListener("click", deleteMessage);
 		fields[5].addEventListener("click", editMessage);
@@ -68,8 +70,8 @@ function renderMessage(message) {
 		element = elementFromTemplate(0);
 		var fields = element.children;
 		fields[0].textContent = message.timestamp;
-		fields[1].textContent = message.user;
-		fields[2].textContent = message.messageText;
+		fields[1].textContent = message.author;
+		fields[2].textContent = message.text;
 		fields[3].textContent = message.messageMark;
 	}
 	element.removeAttribute("id");
@@ -90,25 +92,11 @@ function elementFromTemplate(cond) {
 	return template.cloneNode(true);
 }
 
-function getTextTimestamp() {
-	var date = new Date();
-	var hours = date.getHours();
-	var minutes = date.getMinutes();
-	var seconds = date.getSeconds();
-	if(hours < 10)
-		hours = "0" + hours;
-	if(minutes < 10)
-		minutes = "0" + minutes;
-	if(seconds < 10)
-		seconds = "0" + seconds;
-	return hours + ":" + minutes + ":" + seconds;
-}
-
 function uniqueId() {
 	var date = Date.now();
 	var random = Math.random() * Math.random();
 
-	return Math.floor(date * random);
+	return "" + Math.floor(date * random);
 }
 
 function showOptions() {
@@ -126,33 +114,40 @@ function hideOptions() {
 }
 
 function sendMessage() {
-	if(editMode) {
-		var index = indexById(editId, messageList);
-		messageList[index].messageText = document.getElementById("inputField").value;
-		messageList[index].messageMark = "(edited at " + getTextTimestamp() + ")";
-		saveMessages(messageList);
-		reRender();
+	if(Application.editMode) {
+		var index = indexById(Application.editId, Application.messageList);
+		var message = Application.messageList[index];
+		var text = document.getElementById("inputField").value;
+		var messageToPut = {
+			id : message.id,
+			text : text
+		};
+		ajax('PUT', Application.mainUrl, JSON.stringify(messageToPut), function(){
+			var date = new Date();
+			message.text = text;
+			message.messageMark = "(edited at " + date.getTime() + ")";
+			reRender();
+		});
 	}
 	else {
 		var text = document.getElementById("inputField").value;
 		if(text == "")
 			return;
-		var newMsg = newMessage(currentUser, text, "");
-		messageList.push(newMsg);
-		render([newMsg]);
+		var newMsg = newMessage(Application.currentUser, text, "");
+		ajax('POST', Application.mainUrl, JSON.stringify(newMsg), function(){
+		});
 	}
-	saveMessages(messageList);
 	restoreDefaults();
 }
 
 function changeNickname() {
-	var temp = prompt("Enter new nickname", currentUser);
+	var temp = prompt("Enter new nickname", Application.currentUser);
 	if(temp.length == 0 || temp.length >= 20) {
 		alert("invalid input");
 		return;
 	}
-	currentUser = temp;
-	logAs(currentUser);
+	Application.currentUser = temp;
+	logAs(Application.currentUser);
 	reRender();
 }
 
@@ -162,7 +157,7 @@ function reRender() {
 		node.removeChild(node.lastChild);
 	}
 	
-	render(messageList);
+	render(Application.messageList);
 }
 
 function onCancellButton() {
@@ -173,43 +168,57 @@ function restoreDefaults() {
 	document.getElementsByClassName("cancellButton")[0].style.display = "none";
 	document.getElementsByClassName("sendButton")[0].innerHTML = "Send";
 	document.getElementById("inputField").value = "";
-	editMode = false;
+	Application.editMode = false;
 }
 
-function saveMessages(listToSave) {
-	if(typeof(Storage) == "undefined") {
-		alert('localStorage is not accessible');
-		return;
-	}
+function loadMessages(done) {
+    var url = Application.mainUrl + '?token=' + Application.token;
 
-	localStorage.setItem("Menge messageList", JSON.stringify(listToSave));
+    ajax('GET', url, null, function(responseText){
+        var response = JSON.parse(responseText);
+
+        Application.messageList = Application.messageList.concat(response.messages);
+        Application.token = response.token;
+        render(response.messages);
+		done();
+    });
 }
 
-function loadMessages() {
-	if(typeof(Storage) == "undefined") {
-		alert('localStorage is not accessible');
-		return;
-	}
+function reloadMessages(done) {
+    var url = Application.mainUrl + '?token=' + 'TN11EN';
 
-	var item = localStorage.getItem("Menge messageList");
+    ajax('GET', url, null, function(responseText){
+        var response = JSON.parse(responseText);
 
-	return item && JSON.parse(item);
+        Application.messageList = response.messages;
+        Application.token = response.token;
+        reRender();
+		done();
+    });
 }
 
 function deleteMessage() {
 	var element = this.parentNode;
-	var index = indexByElement(element, messageList);
-	messageList[index] = newMessage(messageList[index].user, "", "(deleted at " + getTextTimestamp() + ")");
-	saveMessages(messageList);
-	reRender();
+	var date = new Date();
+	var index = indexByElement(element, Application.messageList);
+	var message = Application.messageList[index];
+	var messageToDelete = {
+		id:message.id
+	};
+
+	ajax('DELETE', Application.mainUrl, JSON.stringify(messageToDelete), function() {
+		message.text = "";
+		message.messageMark = "(deleted at " + date.getTime() + ")";
+		message.isDeleted = true;
+		reRender();
+	});
 	restoreDefaults();
 }
 
 function editMessage() {
-	editMode = true;
+	Application.editMode = true;
 	var element = this.parentNode;
-	editId = element.attributes['data-id'].value;
-	console.log(editId);
+	Application.editId = element.attributes['data-id'].value;
 	document.getElementsByClassName("cancellButton")[0].style.display = "inline";
 	document.getElementsByClassName("sendButton")[0].innerHTML = "Accept";
 	document.getElementById("inputField").value = this.parentNode.children[2].textContent;
@@ -227,4 +236,87 @@ function indexById(id, messages){
 	return messages.findIndex(function(item) {
 		return item.id == id;
 	});
+}
+
+function ajax(method, url, data, continueWith, continueWithError) {
+	var xhr = new XMLHttpRequest();
+
+	continueWithError = continueWithError || defaultErrorHandler;
+	xhr.open(method || 'GET', url, true);
+
+	xhr.onload = function () {
+		if (xhr.readyState !== 4)
+			return;
+
+		if(xhr.status != 200) {
+			continueWithError('Error on the server side, response ' + xhr.status);
+			return;
+		}
+
+		if(isError(xhr.responseText)) {
+			continueWithError('Error on the server side, response ' + xhr.responseText);
+			return;
+		}
+
+		continueWith(xhr.responseText);
+	};    
+
+    xhr.ontimeout = function () {
+    	ontinueWithError('Server timed out !');
+    };
+
+    xhr.onerror = function (e) {
+    	var errMsg = 'Server connection error !\n'+
+    	'\n' +
+    	'Check if \n'+
+    	'- server is active\n'+
+    	'- server sends header "Access-Control-Allow-Origin:*"\n'+
+    	'- server sends header "Access-Control-Allow-Methods: PUT, DELETE, POST, GET, OPTIONS"\n';
+
+        continueWithError(errMsg);
+    };
+
+    xhr.send(data);
+}
+
+function defaultErrorHandler(message) {
+	var warning = document.getElementsByClassName("warning")[0];
+	warning.style.opacity = 1;
+	warning.setAttribute("title", "cannot access the server!");
+	console.error(message);
+	output(message);
+}
+
+function isError(text) {
+	if(text == "") {
+		var warning = document.getElementsByClassName("warning")[0];
+		if(warning.style.opacity == 1) {
+			warning.style.opacity = 0.5;
+			warning.setAttribute("title", "all right");
+		}
+		return false;
+	}
+	
+	try {
+		var obj = JSON.parse(text);
+	} catch(ex) {
+		return true;
+	}
+
+	return !!obj.error;
+}
+
+window.onerror = function(err) {
+	console.log(err.toString());
+};
+
+function connect() {
+	setInterval(function() {
+		reloadMessages();}, 5000);
+		
+	function whileConnected() {
+		setTimeout(function () {
+			loadMessages(whileConnected());}, 500);
+	}
+	whileConnected();
 }

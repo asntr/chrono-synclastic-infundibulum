@@ -10,7 +10,9 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
+import java.security.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -69,8 +71,12 @@ public class InMemoryMessageStorage implements MessageStorage {
     public boolean updateMessage(Message message) {
         boolean res = false;
         for(Message messageToUpdate : messages) {
+            if(messageToUpdate.isDeleted()) {
+                continue;
+            }
             if(messageToUpdate.getId().equals(message.getId())) {
                 messageToUpdate.setText(message.getText());
+                messageToUpdate.setMessageMark(String.format("(edited at %d)", new Date().getTime()));
                 res = true;
             }
         }
@@ -80,7 +86,15 @@ public class InMemoryMessageStorage implements MessageStorage {
 
     @Override
     public synchronized boolean removeMessage(String messageId) {
-        boolean res = messages.removeIf(p -> p.getId().equals(messageId));
+        boolean res = false;
+        for(Message messageToRemove : messages) {
+            if(messageToRemove.getId().equals(messageId)) {
+                messageToRemove.setText("");
+                messageToRemove.setMessageMark(String.format("(deleted at %d)", new Date().getTime()));
+                messageToRemove.setDeleted(true);
+                res = true;
+            }
+        }
         updateStorage();
         return res;
     }

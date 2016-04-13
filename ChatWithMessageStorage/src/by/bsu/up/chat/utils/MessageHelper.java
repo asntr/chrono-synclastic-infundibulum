@@ -154,6 +154,8 @@ public class MessageHelper {
         jsonObject.put(Constants.Message.FIELD_AUTHOR, message.getAuthor());
         jsonObject.put(Constants.Message.FIELD_TIMESTAMP, message.getTimestamp());
         jsonObject.put(Constants.Message.FIELD_TEXT, message.getText());
+        jsonObject.put(Constants.Message.FIELD_MESSAGE_MARK, message.getMessageMark());
+        jsonObject.put(Constants.Message.FIELD_IS_DELETED, message.isDeleted());
         return jsonObject;
     }
 
@@ -162,11 +164,15 @@ public class MessageHelper {
         String author = ((String) jsonObject.get(Constants.Message.FIELD_AUTHOR));
         long timestamp = ((long) jsonObject.get(Constants.Message.FIELD_TIMESTAMP));
         String text = ((String) jsonObject.get(Constants.Message.FIELD_TEXT));
+        String messageMark = ((String) jsonObject.get(Constants.Message.FIELD_MESSAGE_MARK));
+        boolean isDeleted = ((boolean) jsonObject.get(Constants.Message.FIELD_IS_DELETED));
         Message message = new Message();
         message.setId(id);
         message.setAuthor(author);
         message.setTimestamp(timestamp);
         message.setText(text);
+        message.setMessageMark(messageMark);
+        message.setDeleted(isDeleted);
         return message;
     }
 

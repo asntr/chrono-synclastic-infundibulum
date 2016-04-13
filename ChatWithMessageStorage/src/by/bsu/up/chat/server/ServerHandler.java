@@ -105,10 +105,11 @@ public class ServerHandler implements HttpHandler {
     private Response doPut(HttpExchange httpExchange) {
         try {
             Message message = MessageHelper.getMessageToUpdateTemplate(httpExchange.getRequestBody());
-            if(messageStorage.updateMessage(message))
+            if(messageStorage.updateMessage(message)) {
                 return Response.ok();
-            else
+            } else {
                 return new Response(Constants.RESPONSE_CODE_NOT_MODIFIED, "Incorrect id");
+            }
         } catch (Exception e) {
             logger.error("Could not process your request.", e);
             return new Response(Constants.RESPONSE_CODE_BAD_REQUEST, "Incorrect request body");
@@ -118,10 +119,11 @@ public class ServerHandler implements HttpHandler {
     private Response doDelete(HttpExchange httpExchange) {
         try {
             String idToDelete = MessageHelper.getMessageID(httpExchange.getRequestBody());
-            if(messageStorage.removeMessage(idToDelete))
+            if(messageStorage.removeMessage(idToDelete)) {
                 return Response.ok();
-            else
+            } else {
                 return new Response(Constants.RESPONSE_CODE_NOT_MODIFIED, "Incorrect id");
+            }
         } catch (Exception e) {
             logger.error("Could not process your request.", e);
             return new Response(Constants.RESPONSE_CODE_BAD_REQUEST, "Incorrect request body");

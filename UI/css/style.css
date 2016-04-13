@@ -135,5 +135,6 @@ span.loggedUser {
 }
 
 .warning {
+	opacity: 0.5;
 	display: inline;
 }
