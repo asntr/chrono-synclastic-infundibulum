@@ -4,13 +4,15 @@ var Application = {
     messageList : [],
     mainUrl : 'http://localhost:8080/chat',
     token : 'TN11EN',
-    currentUser : "Anon",
+    currentUser : "",
     editMode : false,
     editId : -1,
 	isConnected : void 0
 };
 
 function run() {
+	changeNickname();
+	
 	logAs(Application.currentUser);
 	
 	var sendButton = document.getElementsByClassName("sendButton")[0];
@@ -160,6 +162,25 @@ function reRender() {
 	render(Application.messageList);
 }
 
+function updateList() {
+	var messages = document.getElementsByClassName("message");
+	for(var i = 0; i < messages.length; i++) {
+		var fields = messages[i].children;
+		var mark = fields[3].textContent;
+		var index = indexByElement(messages[i], Application.messageList);
+		if(Application.messageList[index].isDeleted && Application.messageList[index].author == Application.currentUser) {
+			messages[i].parentNode.removeChild(messages[i]);
+		}
+		if(mark == Application.messageList[index].messageMark) {
+			continue;
+		}
+		else {
+			fields[2].textContent = Application.messageList[index].text;
+			fields[3].textContent = Application.messageList[index].messageMark;
+		}
+	}
+}
+
 function onCancellButton() {
 	restoreDefaults();
 }
@@ -184,7 +205,7 @@ function loadMessages(done) {
     });
 }
 
-function reloadMessages(done) {
+function updateMessages(done) {
     var url = Application.mainUrl + '?token=' + 'TN11EN';
 
     ajax('GET', url, null, function(responseText){
@@ -192,7 +213,7 @@ function reloadMessages(done) {
 
         Application.messageList = response.messages;
         Application.token = response.token;
-        reRender();
+        updateList();
 		done();
     });
 }
@@ -258,6 +279,11 @@ function ajax(method, url, data, continueWith, continueWithError) {
 			return;
 		}
 
+		var warning = document.getElementsByClassName("warning")[0];
+		if(warning.style.opacity == 1) {
+			warning.style.opacity = 0.5;
+			warning.setAttribute("title", "all right");
+		}
 		continueWith(xhr.responseText);
 	};    
 
@@ -284,16 +310,10 @@ function defaultErrorHandler(message) {
 	warning.style.opacity = 1;
 	warning.setAttribute("title", "cannot access the server!");
 	console.error(message);
-	output(message);
 }
 
 function isError(text) {
 	if(text == "") {
-		var warning = document.getElementsByClassName("warning")[0];
-		if(warning.style.opacity == 1) {
-			warning.style.opacity = 0.5;
-			warning.setAttribute("title", "all right");
-		}
 		return false;
 	}
 	
@@ -311,12 +331,23 @@ window.onerror = function(err) {
 };
 
 function connect() {
-	setInterval(function() {
-		reloadMessages();}, 5000);
 		
 	function whileConnected() {
-		setTimeout(function () {
-			loadMessages(whileConnected());}, 500);
+		Application.isConnected = setTimeout(function () {
+			updateMessages();
+			var url = Application.mainUrl + '?token=' + Application.token;
+			ajax('GET', url, null, function(responseText){
+				var response = JSON.parse(responseText);
+
+				Application.messageList = Application.messageList.concat(response.messages);
+				Application.token = response.token;
+				render(response.messages);
+				whileConnected();
+			}, function() {
+				whileConnected();
+			});
+		}, 1000);
 	}
+
 	whileConnected();
 }
