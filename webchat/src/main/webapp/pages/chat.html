@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Menge chat</title>
+		<link rel="stylesheet" href="../css/style.css">
+		<link rel="stylesheet" href="../css/responsive.css">
+		 <script src="../scripts/scripts.js"></script>
+	</head>
+	<body onload="run();">
+		<div class="header">
+			<div class="name">
+				Menge chat &copy;
+			</div>
+			<div class="loginField">
+				You're logged as&nbsp;
+				<span class="loggedUser usernameField">
+				</span><br>
+				<button class="loggingOptions" id="changenick" type="button" >Change nickname</button>
+				<!--<button class="loggingOptions" id="logoff" type="button" >Log off</button>-->
+			</div>
+		</div>
+		<div class="messageList"></div>
+		<div class="inputField">
+			<textarea id="inputField" title='Type your message here' rows="2"></textarea>
+			<img src="../images/warning.png" class="warning" title="all right"></img>
+			<button class="sendButton" type="button" title="Send your message">Send</button>
+			<button class="cancellButton" type="button">Cancell</button>
+		</div>
+		<div id="messageTemplate" style="display: none">
+		<span class="timestamp"></span><span class="user"></span>:<span class="messageText"></span><span class="messageMark"></span>
+		</div>
+		<div id="usermessageTemplate" style="display: none">
+		<span class="timestamp"></span><span class="loggedUser"></span>:<span class="messageText"></span><span class="messageMark"></span><img class="option deleteOption" src="../images/cross.png" title="delete message"><img class="option editOption" src="../images/edit.png" title="edit message" onclick="editMessage()">
+		</div>
+	</body>
+</html>

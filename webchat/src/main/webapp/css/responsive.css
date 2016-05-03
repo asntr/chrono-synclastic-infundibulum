@@ -1,0 +1,157 @@
+@media screen and (max-width: 4000px) {
+	button {
+		padding: 6px 30px;
+	}
+
+	.header {
+		height: 80px;
+		font-size: 26px;
+	}
+	
+	.messageList {
+		margin-top:100px;
+		margin-bottom: 120px;
+	}
+	
+	.loginField {
+		font-size: 14px;
+	}
+	
+	.inputField {
+		height: 120px;
+	}
+	
+	.loggingOptions {
+		padding: 6px 8px;
+		font-size: 16px;
+	}	
+	
+	.warning {
+		height: 35px;
+	}
+	
+	.sendButton {
+		top: 50px;
+	}
+}
+
+@media screen and (max-width: 1500px) {
+	button {
+		padding: 5px 25px;
+	}
+
+	.header {
+		height: 65px;
+		font-size: 24px;
+	}
+	
+	.messageList {
+		margin-top:80px;
+		margin-bottom: 100px;
+	}
+	
+	.loginField {
+		font-size: 14px;
+	}
+	
+	.inputField {
+		height: 100px;
+	}
+	
+	.loggingOptions {
+		padding: 5px 7px;
+		font-size: 14px;
+	}	
+	
+	.warning {
+		height: 30px;
+	}
+	
+	.sendButton {
+		top: 50px;
+	}
+}
+
+
+
+@media screen and (max-width: 900px) {
+	button {
+		padding: 2px 15px;
+	}
+	
+	.header {
+		height: 55px;
+		font-size: 20px;
+	}
+	
+	.messageList {
+		margin-top:70px;
+		margin-bottom: 90px;
+	}
+	
+	.loginField {
+		font-size: 12px;
+	}
+
+	.inputField {
+		height: 90px;
+	}
+	
+	.loggingOptions {
+		padding: 2px 5px;
+		font-size: 12px;
+	}
+	
+	#inputField {
+		height: 20px;
+	}
+	
+	.warning {
+		height: 20px;
+	}
+	
+	.sendButton {
+		top: 40px;
+	}
+}
+
+@media screen and (max-width: 500px) {
+	button {
+		padding: 0px 10px;
+	}
+	
+	#inputField {
+		height: 16px;
+	}
+	
+	.header {
+		height: 45px;
+		font-size: 16px;
+	}
+	
+	.messageList {
+		margin-top:60px;
+		margin-bottom: 75px;
+	}
+	
+	.loginField {
+		font-size: 10px;
+	}
+	
+	.inputField {
+		height: 75px;
+	}
+	
+	.loggingOptions {
+		padding: 2px 2px;
+		font-size: 10px;
+	}
+	
+	.warning {
+		height: 16px;
+	}
+	
+	.sendButton {
+		top: 35px;
+	}
+}
