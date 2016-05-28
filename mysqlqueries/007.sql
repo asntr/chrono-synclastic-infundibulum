@@ -1,0 +1,1 @@
+select distinct name from chat.users;

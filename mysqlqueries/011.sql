@@ -1,0 +1,1 @@
+select datediff(now(), (select date from chat.messages order by date limit 1));
