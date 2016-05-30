@@ -1,4 +1,4 @@
-package main.asntr.chat;
+package by.bsu.asntr.chat;
 
 import org.json.simple.JSONObject;
 

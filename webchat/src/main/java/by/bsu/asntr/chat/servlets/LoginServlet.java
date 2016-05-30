@@ -1,5 +1,7 @@
-package main.asntr.chat;
+package by.bsu.asntr.chat.servlets;
 
+import by.bsu.asntr.chat.User;
+import by.bsu.asntr.chat.UserHelper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

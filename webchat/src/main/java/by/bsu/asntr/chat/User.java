@@ -1,4 +1,4 @@
-package main.asntr.chat;
+package by.bsu.asntr.chat;
 
 /**
  * Created by ш on 03.05.16.
