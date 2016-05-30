@@ -1,3 +1,3 @@
 login: Asntr password: testpass.
-DO NOT EVALUETE THIS
+DO NOT EVALUATE THIS
 
